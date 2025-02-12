@@ -1,0 +1,23 @@
+{
+  "name": "andar-aleatorio",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite",
+    "build": "tsc && vite build",
+    "preview": "vite preview"
+  },
+  "dependencies": {
+    "event-source-polyfill": "^1.0.31",
+    "lit": "^3.2.1",
+    "rxjs": "^7.8.1"
+  },
+  "devDependencies": {
+    "@types/event-source-polyfill": "^1.0.5",
+    "@types/node": "^22.13.1",
+    "typescript": "~5.7.2",
+    "vite": "^6.1.0",
+    "vite-plugin-mkcert": "^1.17.6"
+  }
+}
