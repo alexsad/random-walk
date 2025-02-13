@@ -21,34 +21,33 @@ export class AvatarGrid extends LitElement {
     // getRandowStepFromAPI('Carlinhos', steps).subscribe(console.log)
 
     merge(
-      getRandowStepFromAPI('Alex', steps),
-      getRandowStepFromAPI('Bruna', steps),
-      getRandowStepFromAPI('Carlinhos', steps),
-      getRandowStepFromAPI('Debora', steps),
-      getRandowStepFromAPI('Epfianio', steps),
-      getRandowStepFromAPI('Fragoso', steps),
-      getRandowStepFromAPI('Galber', steps),
-      getRandowStepFromAPI('Heloisa', steps),
-      getRandowStepFromAPI('Irineu', steps),
-      getRandowStepFromAPI('Jaqueline', steps),
-      getRandowStepFromAPI('Kailayne', steps),
-      getRandowStepFromAPI('Leonardo', steps),
-      getRandowStepFromAPI('Mariana', steps),
+      // getRandowStepFromAPI('Alex', steps),
+      // getRandowStepFromAPI('Bruna', steps),
+      // getRandowStepFromAPI('Carlinhos', steps),
+      // getRandowStepFromAPI('Debora', steps),
+      // getRandowStepFromAPI('Epfianio', steps),
+      // getRandowStepFromAPI('Fragoso', steps),
+      // getRandowStepFromAPI('Galber', steps),
+      // getRandowStepFromAPI('Heloisa', steps),
+      // getRandowStepFromAPI('Irineu', steps),
+      // getRandowStepFromAPI('Jaqueline', steps),
+      // getRandowStepFromAPI('Kailayne', steps),
+      // getRandowStepFromAPI('Leonardo', steps),
+      // getRandowStepFromAPI('Mariana', steps),
       getRandowStep('Gabi', steps),
-      // getRandowStep('Xero', steps),
-      // getRandowStep('Gabriela', steps),
-      // getRandowStep('Renato', steps),
-      // getRandowStep('Maria', steps),
-      // getRandowStep('Thiago', steps),
-      // getRandowStep('Pedro', steps),
-      // getRandowStep('Suzana', steps),
-      // getRandowStep('Josao', steps),
-      // getRandowStep('Gorginho', steps),
-      // getRandowStep('Alex', steps),
+      getRandowStep('Xero', steps),
+      getRandowStep('Gabriela', steps),
+      getRandowStep('Renato', steps),
+      getRandowStep('Maria', steps),
+      getRandowStep('Thiago', steps),
+      getRandowStep('Pedro', steps),
+      getRandowStep('Suzana', steps),
+      getRandowStep('Josao', steps),
+      getRandowStep('Gorginho', steps),
+      getRandowStep('Alex', steps),
     ).subscribe(
       {
         next: val => {
-          console.log('val:', val)
           const zIndex = Math.max(val.y, 0)
           const drunkData = this.data
           if (zIndex < (drunkData.length)) {

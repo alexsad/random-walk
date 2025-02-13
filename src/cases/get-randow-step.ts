@@ -7,9 +7,9 @@ import { catchError, map, takeWhile } from "rxjs/operators";
 const getRandowStep = (trackId: string, steps: number) => {
     return interval(200)
         .pipe(
-            takeWhile(val => val < steps),
+            takeWhile(val => val < steps + 0),
             map(val => ({
-                y: val - 1,
+                y: val,
                 x: Math.random() < .5 ? -1 : 1,
                 trackId,
             })),

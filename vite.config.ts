@@ -1,6 +1,9 @@
 import { fileURLToPath, URL } from "url";
 import { defineConfig } from 'vite';
 import mkcert from 'vite-plugin-mkcert';
+import dotenv from 'dotenv';
+
+dotenv.config()
 
 // https://vitejs.dev/config/
 export default defineConfig({
@@ -8,7 +11,7 @@ export default defineConfig({
     server: {
         proxy: {
             '/stream-api': {
-                target: 'http://10.120.161.255:9080',
+                target: process?.env?.URL_API_PROXY,
                 changeOrigin: true,
                 secure: true,
                 ws: true,
