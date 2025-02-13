@@ -1,6 +1,7 @@
 import { LitElement, css, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
 import './avatar-item';
+import { getRightPlacimentPercentSize } from '../util/get-right-placement-size';
 
 @customElement('grid-cell')
 export class AvatarItem extends LitElement {
@@ -31,7 +32,7 @@ export class AvatarItem extends LitElement {
       row.push('')
     }
 
-    const size = `${(100 / row.length)}%`
+    const size = `${getRightPlacimentPercentSize(row.length)}%`
 
     return html`
         <div class="grid-cell">
