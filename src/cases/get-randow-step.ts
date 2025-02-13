@@ -5,7 +5,7 @@ import { catchError, map, takeWhile } from "rxjs/operators";
 
 
 const getRandowStep = (trackId: string, steps: number) => {
-    return interval(200)
+    return interval(400)
         .pipe(
             takeWhile(val => val < steps + 0),
             map(val => ({
@@ -17,8 +17,7 @@ const getRandowStep = (trackId: string, steps: number) => {
 }
 
 
-export type IStepResponse = {
-    stepsLeft: number,
+export type IStep = {
     x: number,
     y: number,
     trackId: string,
@@ -49,7 +48,7 @@ function getRandowStepFromAPI(trackId: string, steps: number) {
             eventSource.close();
         };
     }).pipe(
-        map(({ data }) => JSON.parse((data || '{}')) as IStepResponse),
+        map(({ data }) => JSON.parse((data || '{}')) as IStep),
         map(item => ({
             ...item,
             trackId,

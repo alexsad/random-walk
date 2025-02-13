@@ -30,7 +30,7 @@ export class AvatarItem extends LitElement {
       display: flex;
       align-items: center;
       justify-content: center;
-      font-size: clamp(.1rem, 5vw, 1.2rem);
+      font-size: clamp(.1rem, 5vw, .9rem);
       transition: transform 0.2s;
       overflow: hidden;
     }

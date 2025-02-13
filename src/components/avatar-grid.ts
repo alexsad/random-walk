@@ -1,7 +1,7 @@
 import { LitElement, css, html } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
-import { merge } from 'rxjs';
-import { getRandowStep, getRandowStepFromAPI } from '../cases/get-randow-step';
+import { bufferCount, concatMap, from, merge, mergeMap, Observable, tap } from 'rxjs';
+import { getRandowStep, getRandowStepFromAPI, IStep } from '../cases/get-randow-step';
 import { cloneObject } from '../util/clone-obj';
 import { createMatrix } from '../util/create-matrix';
 import './grid-cell';
@@ -13,73 +13,70 @@ export class AvatarGrid extends LitElement {
 
   connectedCallback() {
     super.connectedCallback();
-    const steps = 14
+    const steps = 20
     this.data = createMatrix(steps, steps, '');
 
-    // getRandowStepFromAPI('Alex', steps - 5).subscribe(console.log)
-    // getRandowStepFromAPI('Bruna', steps).subscribe(console.log)
-    // getRandowStepFromAPI('Carlinhos', steps).subscribe(console.log)
-
-    merge(
-      // getRandowStepFromAPI('Alex', steps),
-      // getRandowStepFromAPI('Bruna', steps),
-      // getRandowStepFromAPI('Carlinhos', steps),
-      // getRandowStepFromAPI('Debora', steps),
-      // getRandowStepFromAPI('Epfianio', steps),
-      // getRandowStepFromAPI('Fragoso', steps),
-      // getRandowStepFromAPI('Galber', steps),
-      // getRandowStepFromAPI('Heloisa', steps),
-      // getRandowStepFromAPI('Irineu', steps),
-      // getRandowStepFromAPI('Jaqueline', steps),
-      // getRandowStepFromAPI('Kailayne', steps),
-      // getRandowStepFromAPI('Leonardo', steps),
-      // getRandowStepFromAPI('Mariana', steps),
-
-      getRandowStep('Alex_fake', steps),
-      getRandowStep('Bruna_fake', steps),
-      getRandowStep('Carlinhos_fake', steps),
-      getRandowStep('Debora_fake', steps),
-      getRandowStep('Epfianio_fake', steps),
-      getRandowStep('Fragoso_fake', steps),
-      getRandowStep('Galber_fake', steps),
-      getRandowStep('Heloisa_fake', steps),
-      getRandowStep('Irineu_fake', steps),
-      getRandowStep('Jaqueline_fake', steps),
-      getRandowStep('Kailayne_fake', steps),
-      getRandowStep('Leonardo_fake', steps),
-      getRandowStep('Mariana_fake', steps),
-      getRandowStep('Nosferato_fake', steps),
-      getRandowStep('Opalla_fake', steps),
-      getRandowStep('Queijada_fake', steps),
-      getRandowStep('Renata_fake', steps),
-      getRandowStep('Suzana_fake', steps),
-      getRandowStep('Tereza_fake', steps),
-      getRandowStep('Uvalina_fake', steps),
-      getRandowStep('Vanilda_fake', steps),
-      getRandowStep('Xernobia_fake', steps),
-      getRandowStep('Zuleica_fake', steps),
-    ).subscribe(
-      {
-        next: val => {
-          const zIndex = Math.max(val.y, 0)
-          const drunkData = this.data
-          if (zIndex < (drunkData.length)) {
-            const rowSize = drunkData[0].length
-            const previousY = Math.max(zIndex - 1, 0)
-            let lastX = drunkData[previousY].findIndex(item => item.includes(val.trackId))
-            let nextX = Math.floor(rowSize / 2)
-            if (lastX > -1) {
-              nextX = Math.min(Math.max(0, lastX + val.x), rowSize - 1)
-            }
-            const oldContent = drunkData[zIndex][nextX].split(',')
-            drunkData[zIndex][nextX] = oldContent.concat(val.trackId).join(',')
-          }
-          this.data = cloneObject(drunkData)
-        },
-        error: err => console.error('Erro geral:', err),
+    const processItem = (val: IStep) => {
+      const zIndex = Math.max(val.y, 0)
+      const drunkData = this.data
+      if (zIndex < (drunkData.length)) {
+        const rowSize = drunkData[0].length
+        const previousY = Math.max(zIndex - 1, 0)
+        let lastX = drunkData[previousY].findIndex(item => item.includes(val.trackId))
+        let nextX = Math.floor(rowSize / 2)
+        if (lastX > -1) {
+          nextX = Math.min(Math.max(0, lastX + val.x), rowSize - 1)
+        }
+        const oldContent = drunkData[zIndex][nextX].split(',')
+        drunkData[zIndex][nextX] = oldContent.concat(val.trackId).join(',')
       }
-    )
+      this.data = cloneObject(drunkData)
+    }
 
+    const processBatch = (batch: string[]) => {
+      return from(batch)
+        .pipe(
+          mergeMap(val => getRandowStep(val, steps))
+        )
+    }
+
+    const agentList = [
+      'Alex_fake',
+      'Bruna_fake',
+      'Carlinhos_fake',
+      'Debora_fake',
+      'Epfianio_fake',
+      'Fragoso_fake',
+      'Galber_fake',
+      'Heloisa_fake',
+      'Irineu_fake',
+      'Jaqueline_fake',
+      'Kailayne_fake',
+      'Leonardo_fake',
+      'Mariana_fake',
+      'Nosferato_fake',
+      'Opalla_fake',
+      'Queijada_fake',
+      'Renata_fake',
+      'Suzana_fake',
+      'Tereza_fake',
+      'Uvalina_fake',
+      'Vanilda_fake',
+      'Xernobia_fake',
+      'Zuleica_fake',
+    ]
+
+    from(agentList)
+      .pipe(
+        bufferCount(7),
+        concatMap(processBatch),
+      )
+      .subscribe(
+        {
+          next: processItem,
+          error: err => console.error('Erro geral:', err),
+        }
+      )
   }
 
   render() {
@@ -103,22 +100,23 @@ export class AvatarGrid extends LitElement {
     :host {
       display: block;
       perspective: calc(100vw + 400px);
+      width: fit-content;
     }
     
     .grid-container {
       display: flex;
       flex-direction: column;
-      gap: 1rem;
-      padding: 1rem;
+      gap: .3rem;
+      padding:.5rem;
       transform: scale(.8) translate(0px, -20px) rotateX(44deg) rotateY(0deg);
       transform-style: preserve-3d;
       background-color:rgb(197, 197, 197);
-      border-radius: 1rem;
+      border-radius: 5px;
     }
 
     .grid-row {
       display: flex;
-      gap: 1rem;
+      gap: .5rem;
     }
 
     avatar-item {
