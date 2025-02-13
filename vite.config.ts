@@ -1,7 +1,7 @@
+import dotenv from 'dotenv';
 import { fileURLToPath, URL } from "url";
 import { defineConfig } from 'vite';
 import mkcert from 'vite-plugin-mkcert';
-import dotenv from 'dotenv';
 
 dotenv.config()
 
@@ -15,7 +15,7 @@ export default defineConfig({
                 changeOrigin: true,
                 secure: true,
                 ws: true,
-                // rewrite: (path) => path.replace(/^\/medai/, ''),
+                // rewrite: (path) => path.replace(/^\/stream-api/, ''),
             },
         },
     },

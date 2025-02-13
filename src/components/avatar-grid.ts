@@ -1,7 +1,7 @@
-import { LitElement, css, html } from 'lit';
+import { css, html, LitElement } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
-import { bufferCount, concatMap, from, merge, mergeMap, Observable, tap } from 'rxjs';
-import { getRandowStep, getRandowStepFromAPI, IStep } from '../cases/get-randow-step';
+import { bufferCount, concatMap, from, mergeMap } from 'rxjs';
+import { getRandowStep, IStep } from '../cases/get-randow-step';
 import { cloneObject } from '../util/clone-obj';
 import { createMatrix } from '../util/create-matrix';
 import './grid-cell';
