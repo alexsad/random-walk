@@ -110,7 +110,8 @@ export class AvatarGrid extends LitElement {
       padding:.5rem;
       transform: scale(.8) translate(0px, -20px) rotateX(44deg) rotateY(0deg);
       transform-style: preserve-3d;
-      background-color:rgb(197, 197, 197);
+      /* background-color:rgb(197, 197, 197); */
+      background-color: #353535;
       border-radius: 5px;
     }
 
