@@ -2,10 +2,8 @@ import { EventSourcePolyfill } from "event-source-polyfill";
 import { interval, Observable, of } from "rxjs";
 import { catchError, map, takeWhile } from "rxjs/operators";
 
-
-
 const getRandowStep = (trackId: string, steps: number) => {
-    return interval(400)
+    return interval(200)
         .pipe(
             takeWhile(val => val < steps + 0),
             map(val => ({

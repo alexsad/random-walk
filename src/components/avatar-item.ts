@@ -21,6 +21,7 @@ export class AvatarItem extends LitElement {
       min-width: var(--size);
       min-height: var(--size);
      }
+
     .avatar {
       min-width: 100%;
       min-height: 100%;
@@ -34,6 +35,11 @@ export class AvatarItem extends LitElement {
       transition: transform 0.2s;
       overflow: hidden;
     }
+    
+    .avatar.has-value{
+      filter: saturate(.62);
+    }
+
     .avatar img {
       width: 100%;
       height: 100%;
@@ -57,7 +63,7 @@ export class AvatarItem extends LitElement {
     }
 
     return html`
-      <div class="avatar">
+      <div class="avatar has-value">
         ${this.value.charAt(0).toUpperCase()}
       </div>
     `;

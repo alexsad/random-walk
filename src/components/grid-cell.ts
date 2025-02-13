@@ -1,7 +1,7 @@
 import { LitElement, css, html } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import './avatar-item';
 import { getRightPlacimentPercentSize } from '../util/get-right-placement-size';
+import './avatar-item';
 
 @customElement('grid-cell')
 export class AvatarItem extends LitElement {
@@ -38,8 +38,8 @@ export class AvatarItem extends LitElement {
   .grid-cell {
     width: 2.5rem; 
     height: 2.5rem; 
-    border: 1px solid #575757;
-    border-radius: 2px;
+    /* border: 1px solid #575757; */
+    /* border-radius: 2px; */
     display: flex;
     flex-wrap: wrap;
     flex-direction: row;
