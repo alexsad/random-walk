@@ -1,7 +1,7 @@
 import { css, html, LitElement } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { bufferCount, concatMap, from, mergeMap } from 'rxjs';
-import { getRandowStep, IStep } from '../cases/get-randow-step';
+import { getRandowStepFromAPI, IStep } from '../cases/get-randow-step';
 import { cloneObject } from '../util/clone-obj';
 import { createMatrix } from '../util/create-matrix';
 import './grid-cell';
@@ -36,39 +36,39 @@ export class AvatarGrid extends LitElement {
     const processBatch = (batch: string[]) => {
       return from(batch)
         .pipe(
-          mergeMap(val => getRandowStep(val, steps))
+          mergeMap(val => getRandowStepFromAPI(val, steps))
         )
     }
 
     const agentList = [
       'Alex_sml',
-      'Bruna_sml',
-      'Carlinhos_sml',
-      'Debora_sml',
-      'Epfianio_sml',
-      'Fragoso_sml',
-      'Galber_sml',
-      'Heloisa_sml',
-      'Irineu_sml',
-      'Jaqueline_sml',
-      'Kailayne_sml',
-      'Leonardo_sml',
-      'Mariana_sml',
-      'Nosferato_sml',
-      'Opalla_sml',
-      'Queijada_sml',
-      'Renata_sml',
-      'Suzana_sml',
-      'Tereza_sml',
-      'Uvalina_sml',
-      'Vanilda_sml',
-      'Xernobia_sml',
-      'Zuleica_sml',
+      // 'Bruna_sml',
+      // 'Carlinhos_sml',
+      // 'Debora_sml',
+      // 'Epfianio_sml',
+      // 'Fragoso_sml',
+      // 'Galber_sml',
+      // 'Heloisa_sml',
+      // 'Irineu_sml',
+      // 'Jaqueline_sml',
+      // 'Kailayne_sml',
+      // 'Leonardo_sml',
+      // 'Mariana_sml',
+      // 'Nosferato_sml',
+      // 'Opalla_sml',
+      // 'Queijada_sml',
+      // 'Renata_sml',
+      // 'Suzana_sml',
+      // 'Tereza_sml',
+      // 'Uvalina_sml',
+      // 'Vanilda_sml',
+      // 'Xernobia_sml',
+      // 'Zuleica_sml',
     ]
 
     from(agentList)
       .pipe(
-        bufferCount(6),
+        bufferCount(10),
         concatMap(processBatch),
       )
       .subscribe(
