@@ -24,7 +24,7 @@ export class AvatarGrid extends LitElement {
   async _startSimulation(){
     this.isProcessing = true
     const steps = this.steps
-    this.data = createMatrix(steps, steps, '');
+    this.data = cloneObject(createMatrix(steps, steps, ''));
 
     const processItem = (val: IStep) => {
       const zIndex = Math.max(val.y, 0)
@@ -106,7 +106,10 @@ export class AvatarGrid extends LitElement {
         <div class="foot">
             <div class="grid-container">
             ${this.data.map((row, rowIndex) => html`
-              <div class="grid-row">
+              <div 
+                class="grid-row"
+                .key="row_${rowIndex}"
+              >
                 ${row.map((item, colIndex) => html`
                   <grid-cell 
                     .value=${item}

@@ -58,7 +58,7 @@ export class AvatarItem extends LitElement {
 
     if (this.value === '') {
       return html`
-        <div class="avatar" style="--size: ${this.size};"></div>
+        <div class="avatar" style="--size: ${this.size}; --bg-color: #f0f0f0; --fill-color: #333333;"></div>
       `;
     }
 
