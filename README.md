@@ -1,6 +1,9 @@
 # Random walk simulation with api-stream
 a basic demo to test [the random walk](https://en.wikipedia.org/wiki/Random_walk), sometimes known as a drunkard's walk.
 
+## try it online
+https://random-walk-sml.netlify.app/
+
 ![preview](src/assets/game-preview.jpg)
 
 # Stack
