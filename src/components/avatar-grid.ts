@@ -1,19 +1,29 @@
 import { css, html, LitElement } from 'lit';
 import { customElement, state } from 'lit/decorators.js';
 import { bufferCount, concatMap, from, mergeMap } from 'rxjs';
-import { getRandowStepFromAPI, IStep } from '../cases/get-randow-step';
+import { getRandowStep, getRandowStepFromAPI, IStep } from '../cases/get-randow-step';
 import { cloneObject } from '../util/clone-obj';
 import { createMatrix } from '../util/create-matrix';
 import './grid-cell';
+import { checkConnection } from '../cases/check-connection';
+import { when } from 'lit/directives/when.js';
 
 @customElement('avatar-grid')
 export class AvatarGrid extends LitElement {
   @state()
   data: string[][] = [];
+  steps = 20
+  @state()
+  isProcessing = false
 
-  connectedCallback() {
-    super.connectedCallback();
-    const steps = 20
+  connectedCallback(): void {
+    super.connectedCallback()
+    this.data = createMatrix(this.steps, this.steps, '');
+  }
+
+  async _startSimulation(){
+    this.isProcessing = true
+    const steps = this.steps
     this.data = createMatrix(steps, steps, '');
 
     const processItem = (val: IStep) => {
@@ -33,10 +43,13 @@ export class AvatarGrid extends LitElement {
       this.data = cloneObject(drunkData)
     }
 
+    const isOnline = await checkConnection()
+    const getRandowStepFn = isOnline ? getRandowStepFromAPI : getRandowStep
+
     const processBatch = (batch: string[]) => {
       return from(batch)
         .pipe(
-          mergeMap(val => getRandowStepFromAPI(val, steps))
+          mergeMap(val => getRandowStepFn(val, steps))
         )
     }
 
@@ -75,6 +88,9 @@ export class AvatarGrid extends LitElement {
         {
           next: processItem,
           error: err => console.error('Erro geral:', err),
+          complete:() => {
+            this.isProcessing = false
+          },
         }
       )
   }
@@ -82,23 +98,37 @@ export class AvatarGrid extends LitElement {
   render() {
 
     return html`
-      <div class="grid-container">
-        ${this.data.map((row, rowIndex) => html`
-          <div class="grid-row">
-            ${row.map((item, colIndex) => html`
-              <grid-cell 
-                .value=${item}
-                .key="${rowIndex}-${colIndex}"
-              ></grid-cell>
+      <div>
+        <div class="head">
+          ${when(this.isProcessing,() => html`<button disabled>processing...</button>`)}
+          ${when(!this.isProcessing,() => html`<button @click=${this._startSimulation}>start</button>`)}
+        </div>
+        <div class="foot">
+            <div class="grid-container">
+            ${this.data.map((row, rowIndex) => html`
+              <div class="grid-row">
+                ${row.map((item, colIndex) => html`
+                  <grid-cell 
+                    .value=${item}
+                    .key="${rowIndex}-${colIndex}"
+                  ></grid-cell>
+                `)}
+              </div>
             `)}
           </div>
-        `)}
+        </div>
+
       </div>
+
     `;
   }
   static styles = css`
     :host {
       display: block;
+      width: fit-content;
+    }
+
+    .foot{
       perspective: calc(100vw + 400px);
       width: fit-content;
     }
