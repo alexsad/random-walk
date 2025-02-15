@@ -6,13 +6,13 @@ https://random-walk-sml.netlify.app/
 
 ![preview](src/assets/game-preview.jpg)
 
-# Stack
+## Stack
    *  Lit
    *  TypeScript
    *  Vite
    *  RxJs
    *  api-stream
-# Envs Variables on .env file
+## Envs Variables on .env file
 
 URL_API_PROXY=http://your-project:9080
 
